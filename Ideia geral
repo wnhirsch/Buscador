@@ -1,0 +1,74 @@
+Cidade;Consulta
+Consulta: termo1;termo2; ...;termoN
+
+Operação a - (nome_da_localidade, número_de_consultas_retornadas)
+	Listar as consultas mais realizadas por localidade.
+
+Operação b - (número_de_consultas_retornadas)
+	Listar as consultas mais realizadas em todo arquivo.
+
+Operação c
+	Listar os termos mais consultados por localidade.
+
+Operação d
+	Listar os termos mais consultados em todo arquivo.
+
+Operação e
+	Listar  tamanho  médio  (medido  em  número  de  termos)  das  consultas  por localidade.
+
+Operação f
+	Listar  tamanho  médio  das  consultas  (medido  em  número  de  termos)  em  todo  arquivo.
+
+Tempo
+	Contabilizar o tempo de criação da estrutura e da geração do arquivo de saídas. 
+
+cada localidade é:
+	uma lista de consultas
+
+cada consulta é:
+	uma lista de termos
+
+cada termo é:
+	string
+
+abp de todos os termos, organizados alfabeticamente. -> lista de consultas
+abp de todas as consultas, organizadas alfabeticamente. -> lista de termos
+lista de todas as consultas, organizada por 
+abp de todas as localidades, organizadas alfabeticamente.
+
+
+
+
+lento:
+sistema = lista de consulta
+consulta = lista de termos
+
+
+eficiente:
+sistema = abp de consultas
+consulta = abp de termos
+
+local: abp -> abp de consultas -> abp de termos
+
+
+
+PLANO:
+
+parsing na string
+criar abp de termos
+comparar abp de termos as abps em cada consulta
+
+
+todas as ABPs tem os campos:
+chave: string,
+esq: ABP, com chaves alfabeticamente menores que a atual
+dir: ABP, com chaves alfabeticamente maiores que a atual
+
+uma ABP de Termos é uma abp em que a chave é um termo do formato string
+e o campo info é NULL.
+
+uma ABP de Consultas é uma abp em que a chave é a menor string
+alfabeticamente e o campo info é uma ABP de Termos
+
+uma ABP DE localidades é uma abp em que a chave é uma string de um local
+e o campo info é uma ABP de Consultas

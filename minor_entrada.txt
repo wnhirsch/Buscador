@@ -1,0 +1,13 @@
+Porto Alegre;Estruturas de Dados
+Porto Alegre;Estruturas de Dados;Árvores;AVL;Rubro-Negras;ABP
+São Paulo;Copa do Mundo
+Salvador;Árvores
+São Paulo;Copa do Mundo;Russia
+Salvador;Copa do Mundo
+Porto Alegre;Estruturas de Dados;Árvores;AVL;Rubro-Negras;ABP
+Salvador;Copa do Mundo;Russia
+Rio de Janeiro;Copa do Mundo;Russia
+Porto Alegre;Copa do Mundo;Russia;FIFA
+Rio de Janeiro;Estruturas de Dados;Árvores
+Porto Alegre;Passagens Aéreas;Russia
+Salvador;Copa do Mundo;Russia

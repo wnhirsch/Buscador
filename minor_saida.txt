@@ -1,0 +1,5 @@
+2 Russia
+1 Árvores
+1 AVL
+1 Copa do Mundo
+Media de termos 3
