@@ -1,5 +1,3 @@
-2 Russia
-1 Árvores
-1 AVL
-1 Copa do Mundo
-Media de termos 3
+1 copa do mundo;russia
+1 arvores;estruturas de dados
+1 2016;boleiro;copa do mundo;corinthians;cristiano ronaldo;d`alessandro;fanaticos;flamengo;fox esporte;jogo de esporte;neymar;rodada do brasileirao;serie a;tabela do brasileirao

@@ -8,123 +8,176 @@
 // Bibliotecas Locais
 #include "../headers/AVL.h"
 #include "../headers/LDC.h"
+#include "../headers/operations.h"
+
+// Constantes
+#define BUFFER_SIZE 512
 
 // Funções Auxiliares
-char *parse_string(char *str);
+char *strParse(char *str);
 
-int main(int args, char *argc[]){
-	// estruturas do buscador:
-	abp_node *abp_locais = NULL;
-
-	//abp_node *termos = NULL;
-
-	// lista com todas cosultas do arquivo, ordenada por frequência ascendente
-	ldec_node *consultas_do_arquivo = NULL;
-
+int main(int argc, char *argv[]){
+	// Arvore de Localidades
+	AVL *localidades = NULL;
+	// Nome dos arquivos de entrada/saida
 	char *entrada, *operacoes, *saida;
-	FILE *file_entrada, *file_operacoes;
-	int buffer_size = 255;
-	char buffer[buffer_size];
+	// Ponteiro para arquivos
+	FILE *file_entrada, *file_operacoes, *file_saida;
+	char buffer[BUFFER_SIZE];
 
-	if(args < 3){
+	// Verifica se os parametros foram informados corretamente
+	if(argc < 4){
 		printf("Does not have the right number of parameters\n");
-		return 1;
+		return -1;
 	}
 
-	entrada = argc[1];
-	operacoes = argc[2];
-	saida = argc[3];
+	// Armazena o nome dos arquios de entrada/saida
+	entrada = argv[1];
+	operacoes = argv[2];
+	saida = argv[3];
 
 	printf("Nome do arquivo de entrada: %s\n", entrada);
 	printf("Nome do arquivo de operações: %s\n", operacoes);
 	printf("Nome do arquivo de saida: %s\n", saida);
 
-	// Open the files
+	// Abre os arquivos de entrada/saida
 	file_entrada = fopen(entrada, "r");
 	file_operacoes = fopen(operacoes, "r");
+	file_saida = fopen(saida, "w");
 
-	// Verifing if the files exist
+	// Verifica a existencia dos arquivos
 	if(!file_entrada){
 		printf("ERROR: The file of input does not exists\n");
 		fclose(file_entrada);
-		return 1;
-	} else
-	if (!file_operacoes){
+		return -2;
+	}
+	else if(!file_operacoes){
 		printf("ERROR: The file of operations does not exists");
 		fclose(file_operacoes);
-		return 1;
+		return -3;
+	}
+	else if(!file_operacoes){
+		printf("ERROR: The file of output does not be created");
+		fclose(file_saida);
+		return -4;
 	}
 
-	// reading the lines of the file of input
 	printf("\nReading for file of input:\n");
 
-	int i=0, MAX = 6;
-	// lendo consultas
-	while(!feof(file_entrada) && i++ < MAX){
-		char *locality, *termo;
-		// ldec_consulta: ldec dos termos da consulta atual
-		// ldec do último termo inserido na ldec da consulta
-		ldec_node *ldec_consulta = NULL, *termo_atual = NULL;
+	// Le todas as consultas do arquivo de entrada
+	while(!feof(file_entrada)){
+		char *strLocal = NULL;		// Nome da localidade
+		char *strTermo = NULL;  	// Nome do Termo atual
+		int isBalanced;	        	// Auxiliar para Inserção da AVL
+		AVL *localAtual = NULL;		// Ponteiro para o nodo do local atual na AVL
+		LDC *consultaAtual = NULL;	// Ponteiro para a consulta atual da localidade
 
-		fgets(buffer, buffer_size, file_entrada);
+		// Lemos uma linha do arquivo
+		fgets(buffer, BUFFER_SIZE, file_entrada);
 
-		// setting the strtok to get the locality and the terms between the tokens ";"
-		locality = strtok(buffer, ";");
-		termo = strtok(NULL, ";");
+		// Lemos o nome da localidade e o primeiro termo
+		strLocal = strtok(buffer, ";");
+		strTermo = strtok(NULL, ";");
 
-		printf("Parsing string\n");
-		parse_string(locality);
+		if(strTermo != NULL){
+			// Simplificamos o nome da localidade
+			printf("Parsing string\n");
+			strParse(strLocal);
 
-		printf("Adicionando local '%s' a abp\n", locality);
+			printf("Adicionando local '%s' a AVL\n", strLocal);
+			// Insere uma nova localidade na Arvore de locais
+			localidades = insertAVL(localidades, strLocal, &isBalanced);
+			// Busca o ponteiro inserido na Arvore
+			localAtual = searchAVL(localidades, strLocal);
 
-		abp_node *abp_local_atual = abp_inserir_node(&abp_locais, locality);
+			// Enquanto não houver mais termos a serem lidos
+			while(strTermo != NULL){
+				// Simplifica o termo atual
+				strParse(strTermo);
+				// Adiciona o termos numa Lista de Termos auxiliar
+				consultaAtual = insertFirstLDC(consultaAtual, strTermo, 1, NULL);
+				// Le outro termo
+				strTermo = strtok(NULL, ";");
+			}
+			// Ordena essa Lista por Ordem ALfabetica para facilitar as operações
+			consultaAtual = sortAlfLDC(consultaAtual);
+			// Salva essa nova consulta na localidade atual
+			localAtual->consultas = insertFirstLDC(localAtual->consultas, "", 1, consultaAtual);
 
-		if(abp_local_atual->node == NULL){
-			printf("Primeira vez buscado daqui\n");
+			// *DEBUGG*
+			// LDC *aux = localAtual->consultas;
+			// do{
+			// 	show_all(aux->termos);
+			// 	printf(" %d\n", aux->frequencia);
+			// 	aux = aux->next;
+			// }while(aux != localAtual->consultas);
+			//
+			// printf("\n");
+			// printDotsReallyRB(localidades, 0);
+			// printf("\n");
 		}
-		else {
-			printf("Já foi buscado daqui\n");
-			printf("%s: ", abp_local_atual->chave);
-		}
-
-		while( termo != NULL ){
-			parse_string(termo);
-
-			// cria um novo termo e coloca no início da lista
-			termo_atual = ldec_insere_termo_alf(&ldec_consulta, termo);
-			printf("termo atual: '%s'", termo_atual->chave);
-
-			termo = strtok(NULL, ";");
-			printf("\nLDEC: ");
-			ldec_imprime(ldec_consulta);
-		}
-
-		// ainda tem que ordenar as listas abaixo, por ordem de frequência
-		ldec_node *consulta_inserida_no_local = insere_consulta_na_lista(&abp_local_atual->info, ldec_consulta);
-		ldec_node *consulta_inserida_no_arquivo = insere_consulta_na_lista(&consultas_do_arquivo, ldec_consulta);
-
-		//abp_local_atual->info = ldec_ordenada_frequencia(consultas_do_arquivo);
-
-		printf("\nConsultas: \n");
-		ldec_node *aux = consulta_inserida_no_arquivo;
-		do {
-			printf("%s[%d]: ", aux->chave, aux->frequencia);
-			ldec_imprime(aux->info);
-			aux = aux->prox;
-		} while(aux != consulta_inserida_no_arquivo);
-
-		// !adicionar consulta a abp de localidades aqui
-		printf("\n\n");
 	}
 
-	imprime_abp(abp_locais, 0);
+	printf("\nReading for file of operations:\n");
+
+	while(!feof(file_operacoes)){
+		char *strFunction;
+		char *parameter1, *parameter2;
+
+		// Lemos uma linha do arquivo
+		fgets(buffer, BUFFER_SIZE, file_operacoes);
+
+		// Lemos o a operação e os parametros
+		strFunction = strtok(buffer, ";");
+		parameter1 = strtok(NULL, ";");
+		parameter2 = strtok(NULL, ";");
+
+		if(!(parameter1 == NULL && parameter2 == NULL)){
+			// Simplificamos os parametros
+			strParse(parameter1);
+			strParse(parameter2);
+
+			printf("Executing operation '%c'\n", toupper(strFunction[0]));
+
+			// Verificamos qual operação é e a executamos
+			switch(tolower(strFunction[0])){
+				case 'a':
+				operacaoA(localidades,file_saida,parameter1,atoi(parameter2));
+				break;
+				// case 'b':
+				// 	operacaoB();
+				// 	break;
+				// case 'c':
+				// 	operacaoC();
+				// 	break;
+				// case 'd':
+				// 	operacaoD();
+				// 	break;
+				// case 'e':
+				// 	operacaoE();
+				// 	break;
+				// case 'f':
+				// 	operacaoF();
+				// 	break;
+				default:
+				printf("Arquivo mal-formatado!");
+				return -5;
+			}
+		}
+	}
+
+	// Fechamos os arquivos
+	fclose(file_entrada);
+	fclose(file_operacoes);
+	fclose(file_saida);
+
 	return 0;
 }
 
 // parsing the string receives,
 // all the characters to lower case
 // if end the string with lineFeed, removes the lineFeed
-char *parse_string(char *str){
+char *strParse(char *str){
 	int len = strlen(str);
 	int i;
 	for(i=0; i<len; i++){

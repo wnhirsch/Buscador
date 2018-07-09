@@ -11,3 +11,38 @@ Porto Alegre;Copa do Mundo;Russia;FIFA
 Rio de Janeiro;Estruturas de Dados;Árvores
 Porto Alegre;Passagens Aéreas;Russia
 Salvador;Copa do Mundo;Russia
+Natal;hang loose do bruxo;tabela;esporte interativo;tabela do brasileirão;classificacao;esporte espetacular;barcelona;esporte classe a;rússia
+Maceió;mundial de clubes;paulistao;paris saint-germain football club;messi;copa são de futebol junior;brasileirão;tabela do brasileirão;campeonato;tabela do brasileirão;barcelona x chelsea;hoje;2017;corinthians;boa esporte
+Rio de Janeiro;boleiro;flamengo;cristiano ronaldo;fox esporte;2016;corinthians;fanaticos;jogo de esporte;rodada do brasileirão;serie a;d`alessandro;neymar;tabela do brasileirão;copa do mundo
+Salvador;jogo do esporte;brasileirão;flamengo;rússia;corinthians;cristiano ronaldo;copa são de futebol junior;esporte espetacular;brasileirão;mundial de clubes;band esporte;messi;grêmio futebol porto alegrence;tabela do brasileirão
+Porto Alegre;tabela;ronaldinho gaúcho o bruxo;esporte interativo
+Fortaleza;libertadores;flamengo;copa são de futebol junior;copa do mundo;corinthians;brasileirão;esporte ao vivo;jogo de esporte;esporte net vip;esporte interativo plus;globo esporte;esporte interativo;brasileirão;messi;campeonato;classificação do brasileirão;fox esporte;cristiano ronaldo
+Boa Vista;carioca;grêmio;são paulo futebol clube
+Fortaleza;tabela do brasileirão;campeonato;carioca;campeão do mundo;esporte espetacular;2017;grêmio;paysandu;spfc;rodada do brasileirão;tabela do brasileirão;band esporte;real madrid x psg;grêmio futebol porto alegrenc
+Manaus;barcelona;globo esporte;sport clube internacional;pes;tabela;fanaticos;esporte interativo;paulistao
+Fortaleza;esporte ao vivo;neymar;internacional;serie a;cruzeiro;classificação do brasileirão;barcelona;esporte net vip;esporte espetacular;ronaldinho gaúcho o bruxo
+Florianópolis;cruzeiro;neymar;cruzeiro;hang loose do bruxo
+Curitiba;neymar;d`alessandro;barcelona;2017;mercado da bola;copa do mundo;tabela do brasileirão;spfc;libertadores;pes;brasileirão;cruzeiro;luan
+Belém;hoje;esporte interativo plus;cruzeiro;real madrid x psg;são paulo futebol clube;tabela do brasileirão;jogo do esporte;esporte espetacular;alterosa esporte;classificação do brasileirão;barcelona;esporte interativo;hang loose do bruxo;paysandu;campeão do mundo;real madrid;esporte net vip;luan
+Porto Alegre;ronaldinho gaúcho o bruxo;boa esporte;cruzeiro;cruzeiro;pes;ao vivo;brasileirão
+Belo Horizonte;paulistao;copa do mundo;esporte interativo;spfc;tabela;pes;band esporte;tabela;grêmio futebol porto alegrence;ale oliveira
+Salvador;esporte espetacular;ronaldinho gaúcho o bruxo;libertadores;paulistao;grêmio;2017;neymar;real madrid;corinthians;carioca
+Rio de Janeiro;barcelona;esporte espetacular;messi;spfc;libertadores;globo esporte;boa esporte
+Porto Alegre;classificacao;2018;cruzeiro;mercado da bola;globo esporte;fanaticos;esporte interativo plus
+Rio Branco;kaka;esporte ao vivo;real madrid x psg;carioca;pes;rússia;esporte espetacular;grêmio;rodada do brasileirão;cruzeiro;flamengo;são paulo futebol clube;2016;neymar;tabela;cruzeiro
+São Luís;sport clube internacional;brasileirão
+Rio Branco;alterosa esporte;brasileirão;esporte classe a;2016;jogo do esporte;esporte interativo plus;esporte espetacular;rodada do brasileirão
+João Pessoa;carioca;spfc;rodada do brasileirão;campeão do mundo;cruzeiro;serie a;são paulo futebol clube;pes;copa do mundo;cristiano ronaldo;neymar;jogo do esporte;classificacao;esporte interativo;2018;ronaldinho gaúcho o bruxo;corinthians;brasileirão;tabela do brasileirão
+Belém;globo esporte;jogo do esporte;tabela do brasileirão
+Belo Horizonte;flamengo;real madrid
+Vitória;hang loose do bruxo;grêmio futebol porto alegrence;fanaticos;cruzeiro
+Rio Branco;grêmio;corinthians;brasileirão;tabela;copa do mundo;libertadores;2016;ronaldinho gaúcho o bruxo;globo esporte;esporte espetacular;rússia;2017;esporte interativo plus;real madrid x psg;real madrid;d`alessandro;kaka;globo esporte
+Goiânia;sport clube internacional;spfc;classificacao;campeonato;2016;paysandu;hoje;band esporte;esporte ao vivo;brasileirão;flamengo;serie a;tabela;classificação do brasileirão;campeão do mundo;real madrid x psg
+Maceió;libertadores;boa esporte;kaka;jogo do esporte;esporte espetacular;cruzeiro
+Recife;esporte classe a;brasileirão;ronaldinho gaúcho o bruxo;2018;2016;grêmio futebol porto alegrence;ao vivo;ale oliveira;fanaticos;rodada do brasileirão;fox esporte;esporte net vip;internacional;boa esporte;corinthians;hang loose do bruxo;classificação do brasileirão;alterosa esporte;tabela do brasileirão
+Natal;libertadores
+Florianópolis;esporte espetacular;tabela;campeonato;paris saint-germain football club;barcelona x chelsea;grêmio futebol porto alegrence;copa do mundo;barcelona;globo esporte
+Aracaju;campeonato;neymar;globo esporte;fox esporte;hang loose do bruxo;esporte classe a;pes;cruzeiro;2016;tabela;tabela;kaka;mercado da bola;classificacao;barcelona
+Maceió;2017;jogo do esporte;spfc;real madrid x psg;band esporte;fox esporte;paulistao;internacional;d`alessandro;grêmio;brasileirão;corinthians;tabela do brasileirão;mercado da bola;fifa
+Boa Vista;cristiano ronaldo;esporte ao vivo;grêmio futebol porto alegrence
+São Luís;tabela do brasileirão;flamengo

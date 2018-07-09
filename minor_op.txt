@@ -1,2 +1,1 @@
-c;Porto Alegre;4
-e;Porto Alegre;3
+a;Rio de Janeiro;3

@@ -1,18 +1,20 @@
 // Bibliotecas Globais
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 
 // Bibliotecas Locais
 #include "../headers/AVL.h"
 
 //------------------------------OPERAÇÕES BÁSICAS-------------------------------
-AVL* insertAVL(AVL* tree, char *chave, int* isBalanced){
+AVL* insertAVL(AVL* tree, char chave[], int* isBalanced){
     // Se a árvore for Nula inserimos o dado
     if(tree == NULL){
         // Alocamos o nodo
         tree = (AVL*) malloc(sizeof(AVL));
         tree->right = NULL;
         tree->left = NULL;
+        tree->consultas = NULL;
         strcpy(tree->chave, chave);
         // Definimos o fator de balanceamento como 0 e desligamos a nossa flag
         // que está ligada quando a árvore está balanceada
@@ -76,12 +78,14 @@ AVL* insertAVL(AVL* tree, char *chave, int* isBalanced){
             }
         }
     }
+    else
+        *isBalanced = 1;
     return tree;
 }
 
-AVL* searchAVL(AVL* tree, char *chave){
+AVL* searchAVL(AVL* tree, char chave[]){
     // Se a árvore está vazia não retornamos nenhum código ('\0')
-    if (tree == NULL)
+    if(tree == NULL)
         return NULL;
     // Caso encontremos o caractere Alfanumérico, retornamos seu igual em Morse
     else if(strcmp(chave, tree->chave) == 0)
@@ -92,6 +96,20 @@ AVL* searchAVL(AVL* tree, char *chave){
     // Caso contrário a direita
     else
         return searchAVL(tree->right, chave);
+}
+
+void printDotsReallyRB (AVL* arvore, int nivel){
+    int i;
+    if (arvore != NULL){
+        for(i = 0; i < nivel; i++)
+            printf("----");
+
+        nivel++;
+		printf("%s\n", arvore->chave);
+
+        printDotsReallyRB (arvore->left, nivel);
+        printDotsReallyRB (arvore->right, nivel);
+    }
 }
 
 //-----------------------------------ROTAÇÕES-----------------------------------
