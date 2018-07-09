@@ -1,25 +1,16 @@
+// Bibliotecas Globais
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <sys/time.h>
 
-#ifndef ABP_H
-#include "../headers/abp.h"
-#endif
+// Bibliotecas Locais
+#include "../headers/AVL.h"
+#include "../headers/LDC.h"
 
-#ifndef LDE_H
-#include "../headers/lde.h"
-#endif
-
-#ifndef LDEC_H
-#include "../headers/lde_circular.h"
-#endif
-
+// Funções Auxiliares
 char *parse_string(char *str);
-
-int LENGTH = 3;
-char *mtr[3] = {"copa do mundo", "avl", "russia"};
 
 int main(int args, char *argc[]){
 	// estruturas do buscador:

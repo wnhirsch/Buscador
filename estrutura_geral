@@ -1,6 +1,0 @@
-Arrumar que falta um nodo na lista das consultas
-
-sistema:
-	abp_termos
-		node = NULL
-		nodes: lde_termos -> termo correspondente na lista_termos organizada por frequência
