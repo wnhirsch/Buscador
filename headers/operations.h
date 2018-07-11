@@ -7,4 +7,12 @@
 
 void operacaoA (AVL* localidades, FILE* saida, char nome[], int TExpected);
 
+void operacaoB (LDC *consultas, FILE *saida, int TExpected);
+
+void operacaoC (AVL *localidades, FILE *saida, char *local, int TExpected);
+
+void operacaoE (AVL* localidades, FILE* saida, char nome[]);
+
+void operacaoF (LDC *consultas, FILE *saida);
+
 #endif // OPERATIONS_H

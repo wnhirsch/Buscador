@@ -18,7 +18,12 @@ char *strParse(char *str);
 
 int main(int argc, char *argv[]){
 	// Arvore de Localidades
-	AVL *localidades = NULL;
+	AVL *localidades = NULL; // para consultas
+	AVL *locais_termos = NULL; // para termos
+
+	// LDC - lista de consultas mais realizadas no arquivo
+	LDC *consultas_arquivo = NULL;
+
 	// Nome dos arquivos de entrada/saida
 	char *entrada, *operacoes, *saida;
 	// Ponteiro para arquivos
@@ -79,7 +84,7 @@ int main(int argc, char *argv[]){
 		strLocal = strtok(buffer, ";");
 		strTermo = strtok(NULL, ";");
 
-		if(strTermo != NULL){
+		if(strLocal != NULL && strTermo != NULL){
 			// Simplificamos o nome da localidade
 			printf("Parsing string\n");
 			strParse(strLocal);
@@ -90,19 +95,33 @@ int main(int argc, char *argv[]){
 			// Busca o ponteiro inserido na Arvore
 			localAtual = searchAVL(localidades, strLocal);
 
+			// Insere uma nova localidade na árvore de locais dos termos
+			locais_termos = insertAVL(locais_termos, strLocal, &isBalanced);
+
+			// devolve a cidade
+			AVL *local_termo = searchAVL(locais_termos, strLocal);
+
 			// Enquanto não houver mais termos a serem lidos
 			while(strTermo != NULL){
 				// Simplifica o termo atual
 				strParse(strTermo);
 				// Adiciona o termos numa Lista de Termos auxiliar
 				consultaAtual = insertFirstLDC(consultaAtual, strTermo, 1, NULL);
+
+				// Insere o termo na lista global de termos de uma cidade
+				local_termo->consultas = insertFirstLDC(local_termo->consultas, strTermo, 1, NULL);
+
 				// Le outro termo
 				strTermo = strtok(NULL, ";");
 			}
+
 			// Ordena essa Lista por Ordem ALfabetica para facilitar as operações
 			consultaAtual = sortAlfLDC(consultaAtual);
 			// Salva essa nova consulta na localidade atual
 			localAtual->consultas = insertFirstLDC(localAtual->consultas, "", 1, consultaAtual);
+
+			// Salva a nova consulta na lista de consultas geral do arquivo
+			consultas_arquivo = insertFirstLDC(consultas_arquivo, "", 1, consultaAtual);
 
 			// *DEBUGG*
 			// LDC *aux = localAtual->consultas;
@@ -132,35 +151,39 @@ int main(int argc, char *argv[]){
 		parameter1 = strtok(NULL, ";");
 		parameter2 = strtok(NULL, ";");
 
-		if(!(parameter1 == NULL && parameter2 == NULL)){
+		printf("%s - %s - %s\n", strFunction, parameter1, parameter2);
+
+		if(strFunction != NULL && !feof(file_operacoes)){
+            printf("Executing operation '%c'\n", toupper(strFunction[0]));
+
 			// Simplificamos os parametros
 			strParse(parameter1);
 			strParse(parameter2);
 
-			printf("Executing operation '%c'\n", toupper(strFunction[0]));
-
 			// Verificamos qual operação é e a executamos
 			switch(tolower(strFunction[0])){
 				case 'a':
-				operacaoA(localidades,file_saida,parameter1,atoi(parameter2));
+					operacaoA(localidades,file_saida,parameter1,atoi(parameter2));
 				break;
-				// case 'b':
-				// 	operacaoB();
-				// 	break;
-				// case 'c':
-				// 	operacaoC();
-				// 	break;
+				case 'b':
+					printf("B[%d, %s]\n", atoi(parameter1), parameter2);
+					operacaoB(consultas_arquivo, file_saida, atoi(parameter1));
+				 	break;
+				case 'c':
+					printf("C[%s, %s, %s]\n", strFunction, parameter1, parameter2);
+				 	operacaoC(locais_termos, file_saida, parameter1, atoi(parameter2));
+				 	break;
 				// case 'd':
 				// 	operacaoD();
 				// 	break;
-				// case 'e':
-				// 	operacaoE();
-				// 	break;
-				// case 'f':
-				// 	operacaoF();
-				// 	break;
+				case 'e':
+					operacaoE(localidades, file_saida, parameter1);
+					break;
+				case 'f':
+					operacaoF(consultas_arquivo, file_saida);
+					break;
 				default:
-				printf("Arquivo mal-formatado!");
+					printf("Arquivo mal-formatado!");
 				return -5;
 			}
 		}
@@ -178,17 +201,22 @@ int main(int argc, char *argv[]){
 // all the characters to lower case
 // if end the string with lineFeed, removes the lineFeed
 char *strParse(char *str){
+    if (str == NULL)
+        return str;
+
 	int len = strlen(str);
 	int i;
 	for(i=0; i<len; i++){
-		//printf("\n[%d]: %c->",i, str[i]);
+		//printf("\n[%d]: %d->%c",i, str[i], str[i]);
 
 		str[i] = tolower(str[i]);
-
 		switch(str[i]){
 			case 10: // 10 = \n = Line Feed
 				str[i] = 0;
 				break;
+            case 13: // CR
+                str[i] = 0;
+                break;
 			case -61:  // acentuação
 				// case 'Á': 2 chars: [-61] e [-127]
 				if(str[i+1] == -127){
@@ -208,6 +236,7 @@ char *strParse(char *str){
 				}
 				break;
 		}
+
 		//printf("%1c[%d]\n",str[i],str[i]);
 	}
 	return str;

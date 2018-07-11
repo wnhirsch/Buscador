@@ -8,7 +8,6 @@ Porto Alegre;Estruturas de Dados;Árvores;AVL;Rubro-Negras;ABP
 Salvador;Copa do Mundo;Russia
 Rio de Janeiro;Copa do Mundo;Russia
 Porto Alegre;Copa do Mundo;Russia;FIFA
-Rio de Janeiro;Estruturas de Dados;Árvores
 Porto Alegre;Passagens Aéreas;Russia
 Salvador;Copa do Mundo;Russia
 Natal;hang loose do bruxo;tabela;esporte interativo;tabela do brasileirão;classificacao;esporte espetacular;barcelona;esporte classe a;rússia
@@ -17,6 +16,7 @@ Rio de Janeiro;boleiro;flamengo;cristiano ronaldo;fox esporte;2016;corinthians;f
 Salvador;jogo do esporte;brasileirão;flamengo;rússia;corinthians;cristiano ronaldo;copa são de futebol junior;esporte espetacular;brasileirão;mundial de clubes;band esporte;messi;grêmio futebol porto alegrence;tabela do brasileirão
 Porto Alegre;tabela;ronaldinho gaúcho o bruxo;esporte interativo
 Fortaleza;libertadores;flamengo;copa são de futebol junior;copa do mundo;corinthians;brasileirão;esporte ao vivo;jogo de esporte;esporte net vip;esporte interativo plus;globo esporte;esporte interativo;brasileirão;messi;campeonato;classificação do brasileirão;fox esporte;cristiano ronaldo
+Rio de Janeiro;Estruturas de Dados;Árvores
 Boa Vista;carioca;grêmio;são paulo futebol clube
 Fortaleza;tabela do brasileirão;campeonato;carioca;campeão do mundo;esporte espetacular;2017;grêmio;paysandu;spfc;rodada do brasileirão;tabela do brasileirão;band esporte;real madrid x psg;grêmio futebol porto alegrenc
 Manaus;barcelona;globo esporte;sport clube internacional;pes;tabela;fanaticos;esporte interativo;paulistao
@@ -28,6 +28,7 @@ Porto Alegre;ronaldinho gaúcho o bruxo;boa esporte;cruzeiro;cruzeiro;pes;ao viv
 Belo Horizonte;paulistao;copa do mundo;esporte interativo;spfc;tabela;pes;band esporte;tabela;grêmio futebol porto alegrence;ale oliveira
 Salvador;esporte espetacular;ronaldinho gaúcho o bruxo;libertadores;paulistao;grêmio;2017;neymar;real madrid;corinthians;carioca
 Rio de Janeiro;barcelona;esporte espetacular;messi;spfc;libertadores;globo esporte;boa esporte
+Rio de Janeiro;Estruturas de Dados;Árvores
 Porto Alegre;classificacao;2018;cruzeiro;mercado da bola;globo esporte;fanaticos;esporte interativo plus
 Rio Branco;kaka;esporte ao vivo;real madrid x psg;carioca;pes;rússia;esporte espetacular;grêmio;rodada do brasileirão;cruzeiro;flamengo;são paulo futebol clube;2016;neymar;tabela;cruzeiro
 São Luís;sport clube internacional;brasileirão
@@ -37,10 +38,12 @@ Belém;globo esporte;jogo do esporte;tabela do brasileirão
 Belo Horizonte;flamengo;real madrid
 Vitória;hang loose do bruxo;grêmio futebol porto alegrence;fanaticos;cruzeiro
 Rio Branco;grêmio;corinthians;brasileirão;tabela;copa do mundo;libertadores;2016;ronaldinho gaúcho o bruxo;globo esporte;esporte espetacular;rússia;2017;esporte interativo plus;real madrid x psg;real madrid;d`alessandro;kaka;globo esporte
+Rio de Janeiro;Copa do Mundo;Russia
 Goiânia;sport clube internacional;spfc;classificacao;campeonato;2016;paysandu;hoje;band esporte;esporte ao vivo;brasileirão;flamengo;serie a;tabela;classificação do brasileirão;campeão do mundo;real madrid x psg
 Maceió;libertadores;boa esporte;kaka;jogo do esporte;esporte espetacular;cruzeiro
 Recife;esporte classe a;brasileirão;ronaldinho gaúcho o bruxo;2018;2016;grêmio futebol porto alegrence;ao vivo;ale oliveira;fanaticos;rodada do brasileirão;fox esporte;esporte net vip;internacional;boa esporte;corinthians;hang loose do bruxo;classificação do brasileirão;alterosa esporte;tabela do brasileirão
 Natal;libertadores
+Salvador;Árvores
 Florianópolis;esporte espetacular;tabela;campeonato;paris saint-germain football club;barcelona x chelsea;grêmio futebol porto alegrence;copa do mundo;barcelona;globo esporte
 Aracaju;campeonato;neymar;globo esporte;fox esporte;hang loose do bruxo;esporte classe a;pes;cruzeiro;2016;tabela;tabela;kaka;mercado da bola;classificacao;barcelona
 Maceió;2017;jogo do esporte;spfc;real madrid x psg;band esporte;fox esporte;paulistao;internacional;d`alessandro;grêmio;brasileirão;corinthians;tabela do brasileirão;mercado da bola;fifa

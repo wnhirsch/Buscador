@@ -1,0 +1,113 @@
+# depslib dependency file v1.0
+1531107385 source:/home/wnhirsch/Downloads/Wellber/sources/AVL.c
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"../headers/AVL.h"
+
+1531119878 /home/wnhirsch/Downloads/Wellber/headers/AVL.h
+	"../headers/LDC.h"
+
+1531119838 /home/wnhirsch/Downloads/Wellber/headers/LDC.h
+
+1531118880 source:/home/wnhirsch/Downloads/Wellber/sources/LDC.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"../headers/LDC.h"
+
+1531120001 source:/home/wnhirsch/Downloads/Wellber/sources/main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	<sys/time.h>
+	"../headers/AVL.h"
+	"../headers/LDC.h"
+	"../headers/operations.h"
+
+1531116886 /home/wnhirsch/Downloads/Wellber/headers/operations.h
+	"../headers/LDC.h"
+	"../headers/AVL.h"
+
+1531119302 source:/home/wnhirsch/Downloads/Wellber/sources/operations.c
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"../headers/operations.h"
+
+1531145707 source:/home/andrei/andrei/Buscador/sources/AVL.c
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"../headers/AVL.h"
+
+1531145707 /home/andrei/andrei/Buscador/headers/AVL.h
+	"../headers/LDC.h"
+
+1531162056 /home/andrei/andrei/Buscador/headers/LDC.h
+
+1531165113 source:/home/andrei/andrei/Buscador/sources/LDC.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"../headers/LDC.h"
+
+1531161675 source:/home/andrei/andrei/Buscador/sources/main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	<sys/time.h>
+	"../headers/AVL.h"
+	"../headers/LDC.h"
+	"../headers/operations.h"
+
+1531161425 /home/andrei/andrei/Buscador/headers/operations.h
+	"../headers/LDC.h"
+	"../headers/AVL.h"
+
+1531163634 source:/home/andrei/andrei/Buscador/sources/operations.c
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"../headers/operations.h"
+
+1531165397 source:c:\users\wellington\downloads\buscador-master\sources\avl.c
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"../headers/AVL.h"
+
+1531165397 c:\users\wellington\downloads\buscador-master\headers\avl.h
+	"../headers/LDC.h"
+
+1531183425 c:\users\wellington\downloads\buscador-master\headers\ldc.h
+
+1531183511 source:c:\users\wellington\downloads\buscador-master\sources\ldc.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"../headers/LDC.h"
+
+1531186271 source:c:\users\wellington\downloads\buscador-master\sources\operations.c
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<math.h>
+	"../headers/operations.h"
+
+1531183566 c:\users\wellington\downloads\buscador-master\headers\operations.h
+	"../headers/LDC.h"
+	"../headers/AVL.h"
+
+1531187193 source:c:\users\wellington\downloads\buscador-master\sources\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	<sys/time.h>
+	"../headers/AVL.h"
+	"../headers/LDC.h"
+	"../headers/operations.h"
+

@@ -1,3 +1,6 @@
-1 copa do mundo;russia
-1 arvores;estruturas de dados
-1 2016;boleiro;copa do mundo;corinthians;cristiano ronaldo;d`alessandro;fanaticos;flamengo;fox esporte;jogo de esporte;neymar;rodada do brasileirao;serie a;tabela do brasileirao
+2 abp;arvores;avl;estruturas de dados;rubro-negras
+1 copa do mundo;fifa;russia
+1 passagens aereas;russia
+1 esporte interativo;ronaldinho gaúcho o bruxo;tabela
+5 média da quantidade de termos das consultas em 'porto alegre'
+8 média da quantidade de termos das consultas do arquivo
