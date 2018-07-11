@@ -36,7 +36,7 @@ all: $(PROJ_NAME)
 $(PROJ_NAME): $(OBJ)
 	@ echo ''
 	@ echo '    Building binary using GCC linker: $@'
-	$(CC) -o $@ $^
+	$(CC) -o $@ $^ -lm
 	@ echo '    Finished Building binary: $@'
 
 ./objects/%.o: ./sources/%.c ./headers/%.h

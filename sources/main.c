@@ -32,18 +32,20 @@ int main(int argc, char *argv[]){
 
 	// Verifica se os parametros foram informados corretamente
 	if(argc < 4){
-		printf("Does not have the right number of parameters\n");
+		printf("Numero de parametros invalido!\n");
 		return -1;
 	}
+
+	printf("\n--------------------INICIO DO PROGRAMA\n\n");
 
 	// Armazena o nome dos arquios de entrada/saida
 	entrada = argv[1];
 	operacoes = argv[2];
 	saida = argv[3];
 
-	printf("Nome do arquivo de entrada: %s\n", entrada);
-	printf("Nome do arquivo de operações: %s\n", operacoes);
-	printf("Nome do arquivo de saida: %s\n", saida);
+	printf("* Nome do arquivo de entrada: %s\n", entrada);
+	printf("* Nome do arquivo de operações: %s\n", operacoes);
+	printf("* Nome do arquivo de saida: %s\n", saida);
 
 	// Abre os arquivos de entrada/saida
 	file_entrada = fopen(entrada, "r");
@@ -52,22 +54,22 @@ int main(int argc, char *argv[]){
 
 	// Verifica a existencia dos arquivos
 	if(!file_entrada){
-		printf("ERROR: The file of input does not exists\n");
+		printf("ERROR: o arquivo de entrada nao existe!\n");
 		fclose(file_entrada);
 		return -2;
 	}
 	else if(!file_operacoes){
-		printf("ERROR: The file of operations does not exists");
+		printf("ERROR: o arquivo de operacao nao existe!\n");
 		fclose(file_operacoes);
 		return -3;
 	}
 	else if(!file_operacoes){
-		printf("ERROR: The file of output does not be created");
+		printf("ERROR: o arquivo de saida nao pode ser criado!\n");
 		fclose(file_saida);
 		return -4;
 	}
 
-	printf("\nReading for file of input:\n");
+	printf("\n----------Lendo o arquivo de entrada\n");
 
 	// Le todas as consultas do arquivo de entrada
 	while(!feof(file_entrada)){
@@ -86,10 +88,9 @@ int main(int argc, char *argv[]){
 
 		if(strLocal != NULL && strTermo != NULL){
 			// Simplificamos o nome da localidade
-			printf("Parsing string\n");
 			strParse(strLocal);
 
-			printf("Adicionando local '%s' a AVL\n", strLocal);
+			printf("\tAdicionando/atualizando local '%s' a AVL\n", strLocal);
 			// Insere uma nova localidade na Arvore de locais
 			localidades = insertAVL(localidades, strLocal, &isBalanced);
 			// Busca o ponteiro inserido na Arvore
@@ -116,28 +117,16 @@ int main(int argc, char *argv[]){
 			}
 
 			// Ordena essa Lista por Ordem ALfabetica para facilitar as operações
-			consultaAtual = sortAlfLDC(consultaAtual);
+			consultaAtual = sortAlfLDCt(consultaAtual);
 			// Salva essa nova consulta na localidade atual
 			localAtual->consultas = insertFirstLDC(localAtual->consultas, "", 1, consultaAtual);
 
 			// Salva a nova consulta na lista de consultas geral do arquivo
 			consultas_arquivo = insertFirstLDC(consultas_arquivo, "", 1, consultaAtual);
-
-			// *DEBUGG*
-			// LDC *aux = localAtual->consultas;
-			// do{
-			// 	show_all(aux->termos);
-			// 	printf(" %d\n", aux->frequencia);
-			// 	aux = aux->next;
-			// }while(aux != localAtual->consultas);
-			//
-			// printf("\n");
-			// printDotsReallyRB(localidades, 0);
-			// printf("\n");
 		}
 	}
 
-	printf("\nReading for file of operations:\n");
+	printf("\n----------Lendo o arquivo de operacoes\n");
 
 	while(!feof(file_operacoes)){
 		char *strFunction;
@@ -151,10 +140,8 @@ int main(int argc, char *argv[]){
 		parameter1 = strtok(NULL, ";");
 		parameter2 = strtok(NULL, ";");
 
-		printf("%s - %s - %s\n", strFunction, parameter1, parameter2);
-
 		if(strFunction != NULL && !feof(file_operacoes)){
-            printf("Executing operation '%c'\n", toupper(strFunction[0]));
+            printf("\n-----Executando operacao '%c'\n", toupper(strFunction[0]));
 
 			// Simplificamos os parametros
 			strParse(parameter1);
@@ -166,16 +153,14 @@ int main(int argc, char *argv[]){
 					operacaoA(localidades,file_saida,parameter1,atoi(parameter2));
 				break;
 				case 'b':
-					printf("B[%d, %s]\n", atoi(parameter1), parameter2);
 					operacaoB(consultas_arquivo, file_saida, atoi(parameter1));
 				 	break;
 				case 'c':
-					printf("C[%s, %s, %s]\n", strFunction, parameter1, parameter2);
 				 	operacaoC(locais_termos, file_saida, parameter1, atoi(parameter2));
 				 	break;
-				// case 'd':
-				// 	operacaoD();
-				// 	break;
+				case 'd':
+					operacaoD(locais_termos, file_saida, atoi(parameter1));
+					break;
 				case 'e':
 					operacaoE(localidades, file_saida, parameter1);
 					break;
@@ -183,9 +168,10 @@ int main(int argc, char *argv[]){
 					operacaoF(consultas_arquivo, file_saida);
 					break;
 				default:
-					printf("Arquivo mal-formatado!");
-				return -5;
+					printf("\nArquivo mal-formatado!\n");
+					return -5;
 			}
+			printf("-----Fim da operacao '%c'\n", toupper(strFunction[0]));
 		}
 	}
 
@@ -193,6 +179,8 @@ int main(int argc, char *argv[]){
 	fclose(file_entrada);
 	fclose(file_operacoes);
 	fclose(file_saida);
+
+	printf("\n--------------------FIM DO PROGRAMA\n\n");
 
 	return 0;
 }

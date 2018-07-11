@@ -1,6 +1,14 @@
 2 abp;arvores;avl;estruturas de dados;rubro-negras
-1 copa do mundo;fifa;russia
-1 passagens aereas;russia
-1 esporte interativo;ronaldinho gaúcho o bruxo;tabela
+1 2018;classificacao;cruzeiro;esporte interativo plus;fanaticos;globo esporte;mercado da bola
+1 ao vivo;boa esporte;brasileirao;cruzeiro;cruzeiro;pes;ronaldinho gaúcho o bruxo
+5 copa do mundo;russia
+2 abp;arvores;avl;estruturas de dados;rubro-negras
+2 arvores
+3 cruzeiro
+3 estruturas de dados
+2 abp
+13 brasileirao
+13 copa do mundo
+12 cruzeiro
 5 média da quantidade de termos das consultas em 'porto alegre'
 8 média da quantidade de termos das consultas do arquivo

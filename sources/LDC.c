@@ -8,15 +8,18 @@
 
 //------------------------------OPERAÇÕES BÁSICAS-------------------------------
 LDC* insertFirstLDC(LDC* list, char chave[], int frequencia, LDC* termos){
+    // Cria o novo nodo
     LDC *new_code = (LDC*)malloc(sizeof(LDC));
     new_code->frequencia = frequencia;
     strcpy(new_code->chave, chave);
     new_code->termos = termos;
 
+    // Se a lista for nula simplesmente insere
     if(list == NULL){
         new_code->prev = new_code;
         new_code->next = new_code;
     }
+    // Caso contrario insere entre o seu nodo final e o inicial
     else{
         new_code->next = list;
         new_code->prev = list->prev;
@@ -29,19 +32,21 @@ LDC* insertFirstLDC(LDC* list, char chave[], int frequencia, LDC* termos){
 
 LDC* removeLDC(LDC* list, char chave[], LDC* termos){
     LDC *actual;
-    int achou = 0;
+    int achou = 0;  // flag
 
-    if(list != NULL)
-    {
+    // Se a lista não for nula
+    if(list != NULL){
         actual = list;
+        // Percorre a lista procurando o TERMO ou a CONSULTA a ser removida
         do{
             if(strcmp(chave, actual->chave) == 0 &&
-               isEqualLDC(actual->termos,termos))
+               compareLDC(actual->termos,termos) == 0)
                 achou = 1;
             else
                 actual = actual->next;
         }while((actual != list) && !achou);
 
+        // Se achou remove
         if(achou){
             if(list == list->next)
                 list = NULL;
@@ -58,26 +63,103 @@ LDC* removeLDC(LDC* list, char chave[], LDC* termos){
   return list;
 }
 
-void printLDC(LDC* list){
-    LDC* aux = list;
+LDC* copyLDC(LDC* list){
+    // Se a lista não for nula
+    if(list != NULL){
+        LDC *newList = NULL, *aux = list->prev;
 
-    if(list != NULL)
+        // Insere cada um dos nodos dela em uma nova lista
         do{
-            printf("\n%s-%d", list->chave, list->frequencia);
-            list = list->next;
-        }while(list != aux);
+            newList = insertFirstLDC(newList, aux->chave, aux->frequencia, aux->termos);
+            aux = aux->prev;
+        }while(aux != list->next);
+
+        return newList;
+    }
+    return NULL;
 }
 
-LDC* sortFreqLDC(LDC* list){
+LDC* appendLDC(LDC *nodeA, LDC *nodeB){
+    // Se as duas listas existem conecta as duas
+    if(nodeA != NULL && nodeB != NULL){
+        LDC *fimA = nodeA->prev, *fimB = nodeB->prev;
+
+        nodeA->prev = fimB;
+        fimB->next = nodeA;
+
+        nodeB->prev = fimA;
+        fimA->next = nodeB;
+
+        return nodeA;
+    }
+    // Caso contrário retorna a que não é nula ou apenas nulo se ambas forem nulo
+    else if(nodeA == NULL)
+        return nodeB;
+    else if(nodeB == NULL)
+        return nodeA;
+    return NULL;
+}
+
+int lengthLDC(LDC* list){
+    int length = 0;
+    if(list != NULL){
+        LDC* aux = list;
+        // A cada nodo da lista incrementa o contador e o retorna
+        do{
+            aux = aux->next;
+            length++;
+        }while(aux != list);
+    }
+    return length;
+}
+
+int compareLDC(LDC *nodeA, LDC *nodeB){
+    // comparando se as duas listas existem
+    if(nodeA != NULL && nodeB != NULL){
+        LDC *auxA = nodeA, *auxB = nodeB;
+        int res_cmp;
+        do{
+            // comparando cada um dos nodos de cada uma das lista, pra
+            // vendo se são iguais
+            res_cmp = strcmp(auxA->chave, auxB->chave);
+            if(res_cmp != 0)
+                return res_cmp;
+            auxA = auxA->next;
+            auxB = auxB->next;
+        }while(nodeA != auxA && nodeB != auxB);
+
+        if(res_cmp == 0){
+            if(nodeA == auxA && nodeB == auxB)
+                return 0;
+            // a primeira lista chegou no início novamente
+            else if(nodeA == auxA && nodeB != auxB)
+                return -1;
+            // a segunda lista chegou no início novamente
+            else if(nodeA != auxA && nodeB == auxB)
+                return 1;
+        }
+        else
+            return res_cmp;
+    }
+    else if(nodeA != NULL && nodeB == NULL)
+        return 1;
+    else if(nodeA == NULL && nodeB != NULL)
+        return -1;
+    return 0;
+}
+
+LDC* sortAlfLDCc(LDC *list){
     LDC *newList = NULL, *actual, *menor;
 
+    // Bubble Sort em ordem decrescente inserindo as menores frequências e as
+    // maiores palavras no final
     while(list != NULL){
         menor = list;
         actual = list->next;
         do{
             if(actual->frequencia < menor->frequencia ||
                 (actual->frequencia == menor->frequencia &&
-                 strcmp(actual->chave, menor->chave) > 0))
+                 compareLDC(menor->termos, actual->termos) <= 0))
                     menor = actual;
             actual = actual->next;
         }while(actual != list);
@@ -89,144 +171,38 @@ LDC* sortFreqLDC(LDC* list){
     return newList;
 }
 
-LDC* sortAlfLDC(LDC* list){
-    LDC *newList = NULL, *actual, *maior;
+LDC* sortAlfLDCt(LDC *list){
+    LDC *newList = NULL, *actual, *menor;
 
+    // Bubble Sort em ordem decrescente inserindo as menores frequências e as
+    // maiores palavras no final
     while(list != NULL){
-        maior = list;
+        menor = list;
         actual = list->next;
         do{
-            if(strcmp(actual->chave, maior->chave) > 0)
-                    maior = actual;
+            if(actual->frequencia < menor->frequencia ||
+                (actual->frequencia == menor->frequencia &&
+                 strcmp(menor->chave, actual->chave) <= 0))
+                    menor = actual;
             actual = actual->next;
         }while(actual != list);
 
-        newList = insertFirstLDC(newList, maior->chave, maior->frequencia, maior->termos);
-        list = removeLDC(list, maior->chave, maior->termos);
+        newList = insertFirstLDC(newList, menor->chave, menor->frequencia, menor->termos);
+        list = removeLDC(list, menor->chave, menor->termos);
     }
 
     return newList;
 }
 
-LDC* sortSubLDC(LDC *list){
-    printf("Sorting\n");
+LDC* removeCopyLDCc(LDC *list){
+    if(list != NULL && list != list->next){
+        LDC *actual = list, *prox = actual->next, *aux;
 
-    LDC *atual = list, *prox;
-    while(atual->next != list){
-        prox = atual->next;
-
-        if(atual->frequencia == prox->frequencia){
-            int res_cmp = ldc_cmp(atual->termos, prox->termos);
-            if(res_cmp >= 1){
-                printf("Trocando:\n");
-                atual->next = prox->next;
-                prox->prev = atual->prev;
-
-                atual->prev->next = prox;
-                prox->next->prev = atual;
-
-                atual->prev = prox;
-                prox->next = atual;
-
-                atual = prox;
-            }
-        }
-        atual = atual->next;
-    };
-
-    printf("End sort\n");
-    return list;
-}
-
-
-LDC *sortSubTermos(LDC *inicio){
-    LDC *aux = inicio;
-
-    while( aux->next != inicio){
-        LDC *prox = aux->next;
-
-        if (aux->frequencia == aux->next->frequencia
-        && strcmp(aux->chave, aux->next->chave) >= 1){
-
-            aux->next = prox->next;
-            prox->prev = aux->prev;
-
-            aux->prev->next = prox;
-            prox->next->prev = aux;
-
-            aux->prev = prox;
-            prox->next = aux;
-
-            aux = prox;
-        }
-        aux = aux->next;
-    }
-
-    while(inicio->prev->frequencia > inicio->frequencia){
-        inicio = inicio->prev;
-    }
-    while(inicio->prev->frequencia == inicio->frequencia && strcmp(inicio->prev->chave, inicio->chave) >= 1){
-        inicio = inicio->prev;
-    }
-    return inicio;
-}
-
-
-// Compara a primeira lista circular com a segunda:
-// Se forem iguais, retorna 0
-// Se a primeira for menor, retorna -1
-// Se a primeira for maior, retorna +1
-int ldc_cmp(LDC *nodeA, LDC *nodeB){
-    LDC *auxA = nodeA, *auxB = nodeB;
-    // comparando se as duas listas existem
-    if(auxA != NULL && auxB == NULL){
-        return 1;
-    } else
-    if(auxA == NULL && auxB != NULL){
-        return -1;
-    } else {
-        int res_cmp;
-
-        do {
-            // comparando cada um dos nodos de cada uma das lista, pra
-            // vendo se são iguais
-            res_cmp = strcmp(auxA->chave, auxB->chave);
-            if(res_cmp != 0){
-                return res_cmp;
-            }
-            auxA = auxA->next;
-            auxB = auxB->next;
-        } while(nodeA != auxA && nodeB != auxB);
-
-        if(res_cmp == 0 && nodeA == auxA && nodeB == auxB){
-            // as duas listas são exatamente iguais
-            return 0;
-        } else
-        if(nodeA == auxA){
-            // a primeira lista chegou no início novamente
-            return -1;
-        } else
-        if(nodeB == auxB){
-            // a segunda lista chegou no início novamente
-            return 1;
-        } else {
-            // as duas listas tem o mesmo tamanho
-            // retorna a última comparação
-            return res_cmp;
-        }
-    }
-}
-
-
-LDC* remove_redundancia(LDC *list){
-    LDC *actual = list, *prox = actual->next, *aux;
-
-    printf("Inicia simplificacao de consultas\n");
-
-    if(actual != prox){
+        // Para cada consulta da lista compara a sua consulta com a dos outros
+        // removendo os iguais e incrementando a sua frequencia
         do{
             do{
-                if(isEqualLDC(actual->termos, prox->termos)){
+                if(compareLDC(actual->termos, prox->termos) == 0){
                     prox->next->prev = prox->prev;
                     prox->prev->next = prox->next;
                     aux = prox->next;
@@ -238,111 +214,44 @@ LDC* remove_redundancia(LDC *list){
                 }
                 else
                     prox = prox->next;
-            }while(prox != actual);
+            }while(prox != list);
             actual = actual->next;
             prox = actual->next;
             // Garante que toda a lista de listas seja percorrida.
         }while(actual != list->prev);
+
+        return actual;
     }
-    return actual;
+    return NULL;
 }
 
+LDC* removeCopyLDCt(LDC *list){
+    if(list != NULL && list != list->next){
+        LDC *actual = list, *prox = actual->next, *aux;
 
-LDC* remove_redundancia_termos(LDC *inicio){
-    LDC *atual = inicio, *prox=atual->next, *prev = atual->prev;
-
-    if (atual == atual->next){
-        return atual;
-    }
-
-    do {
-        LDC *aux = atual->next;
-        while(aux != inicio){
-            if(strcmp(atual->chave, aux->chave) == 0){
-                (atual->frequencia)++;
-
-                aux->prev->next = aux->next;
-                aux->next->prev = aux->prev;
-
-                prev = aux->prev;
-                free(aux);
-                aux = prev;
-            }
-            aux = aux->next;
-        }
-        atual = atual->next;
-    } while(atual != inicio);
-
-    return atual;
-}
-
-LDC* searchLDC(LDC* list, char chave[]){
-    LDC *actual;
-    int achou = 0;
-
-    if(list != NULL)
-    {
-        actual = list;
+        // Para cada termo da lista compara o seu termo com a dos outros
+        // removendo os iguais e incrementando a sua frequencia
         do{
-            if(strcmp(chave, actual->chave) == 0)
-                achou = 1;
-            else
-                actual = actual->next;
-        }while((actual != list) && !achou);
+            do{
+                if(strcmp(actual->chave, prox->chave) == 0){
+                    prox->next->prev = prox->prev;
+                    prox->prev->next = prox->next;
+                    aux = prox->next;
+                    free(prox);
+                    prox = aux;
+                    (actual->frequencia)++;
+                    // Exclui o valor repetido e incrementa a frequencia do
+                    // primeiro encontrado.
+                }
+                else
+                    prox = prox->next;
+            }while(prox != list);
+            actual = actual->next;
+            prox = actual->next;
+            // Garante que toda a lista de listas seja percorrida.
+        }while(actual != list->prev);
 
-        if(achou)
-            return actual;
-        else
-            return NULL;
+        return actual;
     }
-
-  return list;
-}
-
-int isEqualLDC(LDC* list1, LDC* list2){
-    if(list1 == NULL && list2 == NULL)
-        return 1;
-
-    else if((list1 != NULL) != (list2 != NULL))
-        return 0;
-
-    else{
-        LDC *aux1 = list1, *aux2 = list2;
-
-
-        do{
-            if(strcmp(aux1->chave, aux2->chave) != 0)
-                return 0;
-            aux1 = aux1->next;
-            aux2 = aux2->next;
-        }while(list1 != aux1 && list2 != aux2);
-
-        if(list1 == aux1 && list2 == aux2)
-            return 1;
-        else
-            return 0;
-    }
-}
-
-
-void show_all(LDC* list)
-{
-    LDC* aux = list;
-    do{
-        printf("%s;", aux->chave);
-        aux = aux->next;
-    }while(aux != list);
-}
-
-int lengthLDC(LDC* list)
-{
-    int length = 0;
-    if(list != NULL){
-        LDC* aux = list;
-        do{
-            aux = aux->next;
-            length++;
-        }while(aux != list);
-    }
-    return length;
+    return NULL;
 }

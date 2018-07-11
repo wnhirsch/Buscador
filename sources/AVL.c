@@ -98,20 +98,6 @@ AVL* searchAVL(AVL* tree, char chave[]){
         return searchAVL(tree->right, chave);
 }
 
-void printDotsReallyRB (AVL* arvore, int nivel){
-    int i;
-    if (arvore != NULL){
-        for(i = 0; i < nivel; i++)
-            printf("----");
-
-        nivel++;
-		printf("%s\n", arvore->chave);
-
-        printDotsReallyRB (arvore->left, nivel);
-        printDotsReallyRB (arvore->right, nivel);
-    }
-}
-
 //-----------------------------------ROTAÇÕES-----------------------------------
 AVL* rotationLeft(AVL* node){
     AVL *nodeSon = node->right;

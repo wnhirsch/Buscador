@@ -22,40 +22,31 @@ LDC* insertFirstLDC(LDC* list, char chave[], int frequencia, LDC* termos);
 // Função que procura um Termo na LDC e o remove
 LDC* removeLDC(LDC* list, char chave[], LDC* termos);
 
-// Função que imprime a LDC (para debug)
-void printLDC(LDC* list);
+// Função que gera uma nova copia da Lista dada como parametro
+LDC* copyLDC(LDC* list);
 
-// Função que ordena uma LDC de Termos por frequencia
-LDC* sortFreqLDC(LDC* list);
+// Função que insere a segunda Lista no fim da primeira
+LDC* appendLDC(LDC *nodeA, LDC *nodeB);
 
-// Função que ordena uma LDC de Termos por ordem alfabética
-LDC* sortAlfLDC(LDC* list);
-
-// Ordena as consultas de mesma frequencia pela ordem alfabetica de seus termos
-LDC *sortSubLDC(LDC* list);
+// Retorna o tamanho da lista
+int lengthLDC(LDC* list);
 
 // Compara a primeira lista circular com a segunda:
 // Se forem iguais, retorna 0
 // Se a primeira for menor, retorna -1
 // Se a primeira for maior, retorna +1
-int ldc_cmp(LDC *nodeA, LDC *nodeB);
+int compareLDC(LDC *nodeA, LDC *nodeB);
 
-// Percorre a LDC de consultas, aglutinando consultas iguais e aumentando a frequencia.
-LDC* remove_redundancia(LDC *list);
+// Função que ordena uma lista de CONSULTAS em ordem alfabética e de frequência
+LDC* sortAlfLDCc(LDC *list);
 
-// Percorre a LDC de termos, aglutinando termos iguais e atualizando frequencia
-LDC* remove_redundancia_termos(LDC *list);
+// Função que ordena uma lista de TERMOS em ordem alfabética e de frequência
+LDC* sortAlfLDCt(LDC *list);
 
-// Função que procura um termo na lista
-LDC* searchLDC(LDC* list, char chave[]);
+// Função que remove CONSULTAS duplicados na lista de CONSULTAS
+LDC* removeCopyLDCc(LDC *list);
 
-// Função que compara duas listas e retorna 1 caso sejam iguais
-int isEqualLDC(LDC* list1, LDC* list2);
-
-// Imprime todos os itens da lista
-void show_all(LDC* list);
-
-// Retorna o tamanho da lista
-int lengthLDC(LDC* list);
+// Função que remove TERMOS duplicados na lista de TERMOS
+LDC* removeCopyLDCt(LDC *list);
 
 #endif // LDC_H

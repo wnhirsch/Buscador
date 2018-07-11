@@ -7,24 +7,21 @@
 // Bibliotecas Locais
 #include "../headers/operations.h"
 
-// OPERAÇÃO a. Listar as consultas mais realizadas por localidade. A operação recebe como entrada
-// o nome da localidade e um número que indica quantas consultas devem ser retornadas como saída.
-// Se o número for zero, todas as consultas devem ser listadas. A saída da função é o número que
-// representa a quantidade de ocorrências e a respectiva consulta. Restrições: (i) listar um resultado
-// por linha; (ii) se a localidade não existir, exibir essa informação; (iii) consultas com a mesma
-// frequência devem ser listadas em ordem alfabética.
-void operacaoA (AVL* localidades, FILE* saida, char nome[], int TExpected){
-    AVL* localAtual = searchAVL(localidades, nome);
-    if(localAtual == NULL){
+//---------------------------------OPERAÇÃO A-----------------------------------
+void operacaoA (AVL* consultasLocais, FILE* saida, char nome[], int TExpected){
+    AVL* localAtual = searchAVL(consultasLocais, nome); // Busca os dados da localidade
+    if(localAtual == NULL){ // Se não encontrou informa que a localidade não existe
         fprintf(saida, "Localidade '%s' nao existe na database\n", nome);
-        printf("Localidade '%s' inexistente\n", nome);
+        printf("\tLocalidade '%s' inexistente\n", nome);
     }
-    else{
-        printf("Inicia simplificacao de consultas\n");
-        localAtual->consultas = remove_redundancia(localAtual->consultas);
-        localAtual->consultas = sortFreqLDC(localAtual->consultas);
+    else{ // Caso contrário inicia simplificando as consultas
+        printf("\tInicia simplificacao das consultas de '%s'\n", nome);
+        localAtual->consultas = removeCopyLDCc(localAtual->consultas);
+        localAtual->consultas = sortAlfLDCc(localAtual->consultas);
+        printf("\tSimplificacao concluida\n");
 
-        printf("Tenta armazenar as consultas no arquivo de saida\n");
+        // Após isso armazena elas no arquivo
+        printf("\tTenta armazenar os dados no arquivo de saida\n");
         LDC *actual = localAtual->consultas;
         do{
             fprintf(saida, "%d ", actual->frequencia);
@@ -40,40 +37,27 @@ void operacaoA (AVL* localidades, FILE* saida, char nome[], int TExpected){
             fprintf(saida, "\n");
             actual = actual->next;
         }while(actual != localAtual->consultas && --TExpected != 0);
-
-        printf("Dados armazenados com sucesso!\n\n");
-
+        printf("\tDados armazenados com sucesso!\n");
     }
 }
 
-// OPERAÇÃO b. Listar as consultas mais realizadas em todo arquivo. A operação recebe como
-// entrada um número que indica quantas consultas devem ser retornadas como saída. Se o número
-// for zero, todas as consultas devem ser listadas. A saída da função é o número que representa a
-// quantidade de ocorrências e a respectiva consulta. Restrições: (i) listar um resultado por linha; (ii)
-// consultas com a mesma frequência devem ser listadas em ordem alfabética.
+//---------------------------------OPERAÇÃO B-----------------------------------
 void operacaoB (LDC *consultas, FILE *saida, int TExpected){
-    printf("Removendo redundancia\n");
-    consultas = remove_redundancia(consultas);
-    consultas = sortFreqLDC(consultas);
-    consultas = sortSubLDC(consultas);
+    // Inicia simplificando as consultas
+    printf("\tInicia simplificacao de todas as consultas\n");
+    consultas = removeCopyLDCc(consultas);
+    consultas = sortAlfLDCc(consultas);
+    printf("\tSimplificacao concluida\n");
 
-    printf("Consultas: \n");
-    LDC *aux = consultas;
-    do {
-        printf("[%d]: ", aux->frequencia);
-        show_all(aux->termos);
-        aux = aux->next;
-        printf("\n");
-    } while(aux != consultas);
-
+    // Após isso armazena elas no arquivo
+    printf("\tTenta armazenar os dados no arquivo de saida\n");
     LDC *actual = consultas;
-    printf("Tenta armazenar as consultas no arquivo de saida\n");
-
     do{
-        fprintf(saida, "%d ", actual->frequencia);
         LDC *aux = actual->termos;
 
+        fprintf(saida, "%d ", actual->frequencia);
         fprintf(saida, "%s", aux->chave);
+
         aux = aux->next;
 
         while(aux != actual->termos){
@@ -84,87 +68,123 @@ void operacaoB (LDC *consultas, FILE *saida, int TExpected){
         actual = actual->next;
     }while(actual != consultas && --TExpected != 0);
 
-    printf("Dados armazenados com sucesso!\n\n");
+    printf("\tDados armazenados com sucesso!\n");
 }
 
+//---------------------------------OPERAÇÃO C-----------------------------------
+void operacaoC (AVL *termosLocais, FILE *saida, char nome[], int TExpected){
+    AVL *localAtual = searchAVL(termosLocais, nome); // Busca os dados da localidade
+    if(localAtual == NULL){ // Se não encontrou informa que a localidade não existe
+        fprintf(saida, "Localidade '%s' nao existe na database\n", nome);
+        printf("\tLocalidade '%s' inexistente\n", nome);
+    }
+    else{ // Caso contrário inicia simplificando os termos
+        printf("\tInicia simplificacao dos termos de '%s'\n", nome);
+        LDC* lista = copyLDC(localAtual->consultas);
+        lista = removeCopyLDCt(lista);
+        lista = sortAlfLDCt(lista);
+        printf("\tSimplificacao concluida\n");
 
-// OPERAÇÃO c. Listar os termos mais consultados por localidade. A operação recebe como entrada
-// o nome da localidade e um número que indica quantos termos devem ser retornados como saída.
-// Se o número for zero, todas os termos devem ser listados. A saída da função é o número que
-// representa a quantidade de ocorrências e o respectivo termo. Restrições: (i) listar um resultado por
-// linha; (ii) se a localidade não existir, exibir essa informação; (iii) termos com a mesma frequência
-// devem ser listados em ordem alfabética.
-void operacaoC (AVL *localidades, FILE *saida, char *local, int TExpected){
-    AVL *localAtual = searchAVL(localidades, local);
-    if(localAtual == NULL){
-        fprintf(saida, "Localidade '%s' nao existe na database\n", local);
-    } else {
-        LDC* lista = localAtual->consultas;
-
-        lista = remove_redundancia_termos(lista);
-        lista = sortFreqLDC(lista);
-        lista = sortSubTermos(lista);
-
+        // Após isso armazena eles no arquivo
+        printf("\tTenta armazenar os dados no arquivo de saida\n");
         LDC *aux = lista;
-        printf("Armazenando daods no arquivo de saída\n");
-        do {
-            //printf("[%d]%s\n", aux->frequencia, aux->chave);
+        do{
             fprintf(saida, "%d %s\n", aux->frequencia, aux->chave);
             aux = aux->next;
-        } while(aux != lista && --TExpected > 0);
+        }while(aux != lista && --TExpected != 0);
+        printf("\tDados armazenados com sucesso!\n");
     }
 }
 
+//---------------------------------OPERAÇÃO D-----------------------------------
+void operacaoD (AVL *termosLocais, FILE *saida, int TExpected){
+    printf("\tInicia simplificacao de todos os termos\n");
+    // Busca a lista de termos de todas as localidades na árvore
+    LDC* lista = operacaoDrecursivo(termosLocais);
+    // Simplifica os termos encontrados
+    lista = removeCopyLDCt(lista);
+    lista = sortAlfLDCt(lista);
+    printf("\tSimplificacao concluida\n");
 
-// OPERAÇÃO d. Listar os termos mais consultados em todo arquivo. A operação recebe como
-// entrada um número que indica quantos termos devem ser retornados como saída. Se o número for
-// zero, todas os termos devem ser listados. A saída da função é o número que representa a
-// quantidade de ocorrências e o respectivo termo. Restrições: (i) listar um resultado por linha; (ii)
-// termos com a mesma frequência devem ser listados em ordem alfabética.
+    // Após isso armazena eles no arquivo
+    printf("\tTenta armazenar os dados no arquivo de saida\n");
+    LDC *aux = lista;
+    do{
+        //printf("[%d]%s\n", aux->frequencia, aux->chave);
+        fprintf(saida, "%d %s\n", aux->frequencia, aux->chave);
+        aux = aux->next;
+    }while(aux != lista && --TExpected != 0);
+    printf("\tDados armazenados com sucesso!\n");
+}
 
-
-
-// OPERAÇÃO e. Listar tamanho médio das consultas por localidade. A operação recebe como
-// entrada o nome da localidade e retorna como saída a média da quantidade de termos das consultas
-// na localidade informada. A saída é do tipo int. Truncar se o resultado não for inteiro.
-
-void operacaoE (AVL* localidades, FILE* saida, char nome[]){
-    AVL* localAtual = searchAVL(localidades, nome);
-    if(localAtual == NULL){
-        fprintf(saida, "Localidade '%s' nao existe na database\n", nome);
-        printf("Localidade '%s' inexistente\n", nome);
+LDC* operacaoDrecursivo(AVL *termosLocais){
+    // Se não chegamos no fim da árvore
+    if(termosLocais != NULL){
+        // criamos uma lista com as consultas dessa localidade
+        LDC* lista = copyLDC(termosLocais->consultas);
+        // e concatenamos com as localidades seguintes
+        lista = appendLDC(lista,operacaoDrecursivo(termosLocais->left));
+        lista = appendLDC(lista,operacaoDrecursivo(termosLocais->right));
+        return lista;
     }
-    else{
-        printf("Inicia contagem de termos e consultas\n");
+    return NULL;
+}
+
+//---------------------------------OPERAÇÃO E-----------------------------------
+void operacaoE (AVL* consultasLocais, FILE* saida, char nome[]){
+    AVL* localAtual = searchAVL(consultasLocais, nome); // Busca os dados da localidade
+    if(localAtual == NULL){ // Se não encontrou informa que a localidade não existe
+        fprintf(saida, "Localidade '%s' nao existe na database\n", nome);
+        printf("\tLocalidade '%s' inexistente\n", nome);
+    }
+    else{ // Caso contrário inicia a contagem
+        printf("\tInicia contagem dos termos e consultas de '%s'\n", nome);
         int nconsultas = 0, ntermos = 0, media;
+        // Dado a lista de consultas dessa localidade
         LDC *consultas = localAtual->consultas;
+
+        // Para cada consulta
         do{
+            // Numero de consultas = sua frequencia
             nconsultas += consultas->frequencia;
+            // Numero de termos = tamanho da lista de consultas * sua frequencia
             ntermos += consultas->frequencia * lengthLDC(consultas->termos);
             consultas = consultas->next;
         }while(consultas != localAtual->consultas);
+
+        // Calculamos a média após obter o somatorio dos termos e consultas
         media = ceil((double) ntermos / nconsultas);
+        printf("\tCalculos concluidos\n");
+
+        // Após isso armazena a informação no arquivo
+        printf("\tTenta armazenar os dados no arquivo de saida\n");
         fprintf(saida, "%d média da quantidade de termos das consultas em '%s'\n", media, nome);
-        printf("Dados armazenados com sucesso!\n\n");
+        printf("\tDados armazenados com sucesso!\n");
     }
 }
 
-
-// OPERAÇÃO f. Listar tamanho médio das consultas em todo arquivo. A operação retorna como
-// saída a média da quantidade de termos das consultas do arquivo. A saída é do tipo int. Truncar se o
-// resultado não for inteiro.
-
-void operacaoF (LDC *consultas, FILE *saida)
-{
-    printf("Inicia contagem de termos e consultas\n");
+//---------------------------------OPERAÇÃO F-----------------------------------
+void operacaoF (LDC *consultas, FILE *saida){
+    printf("\tInicia contagem de todos os termos e consultas\n");
     int nconsultas = 0, ntermos = 0, media;
+    // Dado a lista de consultas dessa localidade
     LDC* aux = consultas;
+
+    // Para cada consulta
     do{
+        // Numero de consultas = sua frequencia
         nconsultas += aux->frequencia;
+        // Numero de termos = tamanho da lista de consultas * sua frequencia
         ntermos += aux->frequencia * lengthLDC(aux->termos);
         aux = aux->next;
     }while(aux != consultas);
+
+    // Calculamos a média após obter o somatorio dos termos e consultas
     media = ceil((double) ntermos / nconsultas);
+    printf("\tCalculos concluidos\n");
+
+    printf("\tTenta armazenar os dados no arquivo de saida\n");
+    // Após isso armazena a informação no arquivo
     fprintf(saida, "%d média da quantidade de termos das consultas do arquivo\n", media);
-    printf("Dados armazenados com sucesso!\n\n");
+    printf("\tDados armazenados com sucesso!\n");
 }
